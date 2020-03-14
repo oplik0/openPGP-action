@@ -42,7 +42,6 @@ async function run() {
             var key = await hkp.lookup({
                 query: inputKey
             });
-            console.log(key);
         } else {
             var key = inputKey;
         }
@@ -69,6 +68,7 @@ async function run() {
                 var privateKey = false;
             }
             const message = openpgp.message.fromText(text);
+            console.log(key.split(" "));
             const publicKeys = await openpgp.key.readArmored(key);
             console.log(publicKeys);
             var { data: result } = await openpgp.encrypt({
