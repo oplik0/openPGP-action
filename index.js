@@ -1,6 +1,8 @@
 const core = require("@actions/core");
 const openpgp = require("openpgp");
 const fs = require("fs");
+global.fetch = require("node-fetch");
+
 async function run() {
     try {
         console.log("started");
