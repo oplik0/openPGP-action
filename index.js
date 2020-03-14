@@ -5,7 +5,6 @@ async function run() {
     try {
         console.log("started");
         const inputText = core.getInput("text", { required: true }).toString();
-        console.log(`input value: ${inputText}`);
         try {
             if (fs.existsSync(path)) {
                 var text = fs.readFileSync(inputText);
@@ -13,7 +12,6 @@ async function run() {
         } catch (err) {
             var text = inputText;
         }
-        console.log(`text inputted: ${text}`);
         const keysource = core
             .getInput("keysource", { required: true })
             .toString();
@@ -30,7 +28,11 @@ async function run() {
         const keyserver = core
             .getInput("keyserver", { required: false })
             .toString();
-        console.log(`keyserver inputted: ${keyserver}`);
+        console.log(
+            `keyserver used: ${
+                !!keyserver ? keyserver : "https://keyserver.ubuntu.com"
+            }`
+        );
         if (useKeyserver) {
             var hkp = !!keyserver
                 ? new openpgp.HKP(keyserver)
@@ -65,13 +67,6 @@ async function run() {
             }
             const message = openpgp.message.fromText(text);
             const publicKeys = await openpgp.key.readArmored(key);
-            console.log(
-                `message: ${JSON.stringify(
-                    message
-                )}; publicKeys: ${JSON.stringify(
-                    publicKeys
-                )}; privateKey: ${privateKey}`
-            );
             var { data: result } = await openpgp.encrypt({
                 message: message,
                 publicKeys: publicKeys.keys,
@@ -79,7 +74,7 @@ async function run() {
             });
         }
         core.setOutput("encrypted-text", result);
-        core.exportVariable("encryptedText", result);
+        core.exportVariable("envEncryptedText", result);
     } catch (error) {
         core.setFailed(error.stack);
     }

@@ -1,6 +1,6 @@
 {
     "name": "openpgp-action",
-    "version": "0.1.3",
+    "version": "0.2",
     "description": "Github action for encrypting or signing text",
     "main": "index.js",
     "repository": {

@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: encryption_test
+      - name: encryption test
         uses: ./ # Uses an action in the root directory
         id: pgp
         with:
@@ -20,10 +20,17 @@ jobs:
           key: ${{ secrets.PUBLIC_KEY }}
           privateKey: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
-      - name: signing_test
+      - name: signing test
         uses: ./ # Uses an action in the root directory
         id: pgp2
         with:
-          text: encryption test
+          text: signing test
           key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
+      - name: keyserver test
+        uses: ./ # Uses an action in the root directory
+        id: pgp3
+        with:
+          text: keyserver test
+          keysource: keyserver
+          key: 708E13848FC62A1F71097F0D73ADA0D5D500BCD6
