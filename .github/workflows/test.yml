@@ -35,6 +35,12 @@ jobs:
           keysource: keyserver
           keyserver: https://keys.openpgp.org
           key: 5B01AC37ECF039FD24F7434646A9E63BBC90F2D1
+      - name: artifact test
+        uses: ./
+        id: pgp4
+        with:
+          text: artifact test
+          key: ${{ secrets.PUBLIC_KEY }}
           saveArtifact: "true"
       - name: print results
         run: echo "output results - \n1. ${{ steps.pgp.outputs.encrypted-text }}\n2. ${{ steps.pgp2.outputs.encrypted-text }}\n3. ${{ steps.pgp3.outputs.encrypted-text }}\n"
