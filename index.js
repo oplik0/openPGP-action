@@ -1,28 +1,39 @@
 const core = require("@actions/core");
+const artifact = require("@actions/artifact");
 const openpgp = require("openpgp");
 const fs = require("fs");
 global.fetch = require("node-fetch");
 
 async function run() {
     try {
-        console.log("started");
+        core.info("started");
         const inputText = core.getInput("text", { required: true }).toString();
+        core.debug(`text inputted: ${inputText}`);
         try {
             if (fs.existsSync(path)) {
+                core.debug("text is a valid filepath, reading the file");
                 var text = fs.readFileSync(inputText);
+            } else {
+                core.debug("text is not a valid filepath, leaving as a string");
+                var text = inputText;
             }
         } catch (err) {
+            core.debug("text is not a valid filepath, leaving as a string");
             var text = inputText;
         }
         const keysource = core
             .getInput("keysource", { required: true })
             .toString();
         const useKeyserver = keysource === "keyserver" ? true : false;
-        console.log(`keysource: ${keysource}`);
+        core.info(`keysource: ${keysource}`);
         const inputKey = core.getInput("key", { required: true }).toString();
+        core.debug(`Key inputted: ${inputKey}`);
         const isPrivate = !!inputKey.includes("PRIVATE KEY BLOCK");
+        core.debug(!!isPrivate ? "Key is private" : "key is not private");
         if (isPrivate) {
-            console.log("inputted key is private and will be used for signing");
+            core.info(
+                "inputted key is private and will be used for signing, and not encryption"
+            );
         } else {
             var privateInputKey = core.getInput("privateKey").toString();
         }
@@ -30,7 +41,7 @@ async function run() {
         const keyserver = core
             .getInput("keyserver", { required: false })
             .toString();
-        console.log(
+        core.info(
             `keyserver used: ${
                 !!keyserver ? keyserver : "https://keyserver.ubuntu.com"
             }`
@@ -42,10 +53,12 @@ async function run() {
             var key = await hkp.lookup({
                 query: inputKey
             });
+            core.debug(`key retrieved from keyserver: ${key}`);
         } else {
             var key = inputKey;
         }
         if (isPrivate) {
+            core.debug("signing the message");
             var {
                 keys: [privateKey]
             } = await openpgp.key.readArmored(key);
@@ -61,10 +74,16 @@ async function run() {
                 var {
                     keys: [privateKey]
                 } = await openpgp.key.readArmored(privateInputKey);
+                core.debug(
+                    `private key used alongside the public one: ${privateKey}`
+                );
                 if (!!passphrase) {
                     await privateKey.decrypt(passphrase);
                 }
             } catch (error) {
+                core.debug(
+                    "private key will not be used for signing the encrypted message"
+                );
                 var privateKey = false;
             }
             const message = openpgp.message.fromText(text);
@@ -77,6 +96,18 @@ async function run() {
         }
         core.setOutput("encrypted-text", result);
         core.exportVariable("envEncryptedText", result);
+
+        const saveArtifact = core.getInput("saveArtifact", { required: true });
+        if (["true", "yes", "y"].includes(saveArtifact)) {
+            const artifactClient = artifact.create();
+            fs.writeFileSync("/tmp/pgp-result", result);
+            await artifactClient.uploadArtifact(
+                "pgp-result",
+                "/tmp/pgp-result",
+                __dirname,
+                { continueOnError: true }
+            );
+        }
     } catch (error) {
         core.setFailed(error.stack);
     }
