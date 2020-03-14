@@ -16,7 +16,7 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: pgp
         with:
-          text: "encryption test"
+          text: encryption test
           key: ${{ secrets.PUBLIC_KEY }}
           privateKey: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
@@ -24,6 +24,6 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: pgp2
         with:
-          text: "encryption test"
+          text: encryption test
           key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
