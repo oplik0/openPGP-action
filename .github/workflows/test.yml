@@ -33,4 +33,5 @@ jobs:
         with:
           text: keyserver test
           keysource: keyserver
+          keyserver: https://keys.openpgp.org
           key: 708E13848FC62A1F71097F0D73ADA0D5D500BCD6
