@@ -1,7 +1,7 @@
 const core = require("@actions/core");
 const openpgp = require("openpgp");
 const fs = require("fs");
-(async () => {
+async function run {
     try {
         console.log("test");
         core.debug("started");
@@ -74,4 +74,6 @@ const fs = require("fs");
     } catch (error) {
         core.setFailed(error);
     }
-})();
+}
+
+run();
