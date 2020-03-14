@@ -20,6 +20,7 @@ jobs:
           key: ${{ secrets.PUBLIC_KEY }}
           privateKey: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
+          keysource: "key"
       - name: signing_test
         uses: ./ # Uses an action in the root directory
         id: pgp2
