@@ -18,15 +18,16 @@ async function run() {
             core.getInput("keysource", { required: true }) === "keyserver"
                 ? true
                 : false;
+        console.log(`keysource: ${keysource}`);
         const inputKey = core.getInput("key", { required: true });
         const isPrivate = !!key.includes("PRIVATE KEY BLOCK");
+        console.log(`key inputted: ${key}`);
         if (isPrivate) {
             const passphrase = core.getInput("passphrase");
             console.log("inputted key is private and will be used for signing");
         } else {
             const privateInputKey = core.getInput("privateKey");
         }
-        console.log(`key inputted: ${key}`);
         const keyserver = core.getInput("keyserver", { required: false });
         console.log(`keyserver inputted: ${keyserver}`);
         if (useKeyserver) {
