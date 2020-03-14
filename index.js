@@ -68,9 +68,7 @@ async function run() {
                 var privateKey = false;
             }
             const message = openpgp.message.fromText(text);
-            console.log(key.split(" "));
             const publicKeys = await openpgp.key.readArmored(key);
-            console.log(publicKeys);
             var { data: result } = await openpgp.encrypt({
                 message: message,
                 publicKeys: publicKeys.keys,
