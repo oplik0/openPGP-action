@@ -4,7 +4,7 @@ const fs = require("fs");
 async function run() {
     try {
         console.log("started");
-        const inputText = core.getInput("text", { required: true });
+        const inputText = core.getInput("text", { required: true }).toString();
         console.log(`input value: ${inputText}`);
         try {
             if (fs.existsSync(path)) {
@@ -14,29 +14,32 @@ async function run() {
             var text = inputText;
         }
         console.log(`text inputted: ${text}`);
-        const keysource = core.getInput("keysource", { required: true });
+        const keysource = core
+            .getInput("keysource", { required: true })
+            .toString();
         const useKeyserver = keysource === "keyserver" ? true : false;
         console.log(`keysource: ${keysource}`);
-        const inputKey = core.getInput("key", { required: true });
-        console.log(`key inputted: ${inputKey}`);
+        const inputKey = core.getInput("key", { required: true }).toString();
         const isPrivate = !!inputKey.includes("PRIVATE KEY BLOCK");
         if (isPrivate) {
-            const passphrase = core.getInput("passphrase");
+            var passphrase = core.getInput("passphrase").toString();
             console.log("inputted key is private and will be used for signing");
         } else {
-            const privateInputKey = core.getInput("privateKey");
+            var privateInputKey = core.getInput("privateKey").toString();
         }
-        const keyserver = core.getInput("keyserver", { required: false });
+        const keyserver = core
+            .getInput("keyserver", { required: false })
+            .toString();
         console.log(`keyserver inputted: ${keyserver}`);
         if (useKeyserver) {
             var hkp = !!keyserver
                 ? new openpgp.HKP(keyserver)
                 : new openpgp.HKP();
-            const key = await hkp.lookup({
+            var key = await hkp.lookup({
                 query: inputKey
             });
         } else {
-            const key = inputKey;
+            var key = inputKey;
         }
         if (isPrivate) {
             var {
@@ -45,7 +48,7 @@ async function run() {
             if (!!passphrase) {
                 await privateKey.decrypt(passphrase);
             }
-            const { data: result } = await openpgp.sign({
+            var { data: result } = await openpgp.sign({
                 message: openpgp.cleartext.fromText(text),
                 privateKeys: [privateKey]
             });
@@ -61,7 +64,7 @@ async function run() {
             } catch (error) {
                 var privateKey = false;
             }
-            const { data: result } = await openpgp.encrypt({
+            var { data: result } = await openpgp.encrypt({
                 message: openpgp.message.fromText(text),
                 publicKeys: (await openpgp.key.readArmored(key)).keys,
                 privateKeys: !!privateKey ? [privateKey] : []
