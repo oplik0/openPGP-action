@@ -2,6 +2,7 @@ const core = require("@actions/core");
 const openpgp = require("openpgp");
 const fs = require("fs");
 try {
+    console.log("test");
     core.debug("started");
     const inputText = core.getInput("text", { required: true });
     core.debug(`input value: ${inputText}`);
@@ -67,8 +68,8 @@ try {
                 privateKeys: !!privateKey ? [privateKey] : []
             });
         }
-        core.setOutput("encrypted-text", result);
-        core.exportVariable("encryptedText", result);
+        core.setOutput("encrypted-text", result.toString());
+        core.exportVariable("encryptedText", result.toString());
     })();
 } catch (error) {
     core.setFailed(error);
