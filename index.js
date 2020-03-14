@@ -1,5 +1,4 @@
 const core = require("@actions/core");
-const artifact = require("@actions/artifact");
 const openpgp = require("openpgp");
 const fs = require("fs");
 global.fetch = require("node-fetch");
