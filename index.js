@@ -100,20 +100,20 @@ async function run() {
         const saveArtifact = core.getInput("saveArtifact", { required: true });
         if (["true", "yes", "y"].includes(saveArtifact)) {
             const artifactClient = artifact.create();
-            fs.writeFileSync("/tmp/pgp-result", result);
+            fs.writeFileSync("/tmp/pgp_result", result);
             try {
-                if (fs.existsSync("/tmp/pgp-result")) {
+                if (fs.existsSync("/tmp/pgp_result")) {
                     await artifactClient.uploadArtifact(
-                        "pgp-result",
-                        "/tmp/pgp-result",
+                        "pgp_result",
+                        "/tmp/pgp_result",
                         __dirname,
                         { continueOnError: true }
                     );
                 } else {
-                    core.warn("plik nie został stworzony");
+                    core.warning("plik nie został stworzony");
                 }
             } catch (error) {
-                core.warn("plik nie został stworzony");
+                core.warning("plik nie został stworzony");
             }
         }
     } catch (error) {
