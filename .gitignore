@@ -350,4 +350,5 @@ MigrationBackup/
 
 node_modules/.bin
 
+.vscode/*
 .vscode
