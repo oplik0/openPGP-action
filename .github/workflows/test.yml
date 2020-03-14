@@ -1,0 +1,28 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on: [push]
+
+jobs:
+  test_the_action:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: encryption_test
+        uses: ./ # Uses an action in the root directory
+        with:
+          text: "encryption test"
+          key: ${{ secrets.PUBLIC_KEY }}
+          privateKey: ${{ secrets.PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+      - name: signing_test
+        uses: ./ # Uses an action in the root directory
+        with:
+          text: "encryption test"
+          key: ${{ secrets.PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
