@@ -101,7 +101,7 @@ async function run() {
         if (["true", "yes", "y"].includes(saveArtifact)) {
             const artifactClient = artifact.create();
             fs.writeFileSync("/tmp/pgp-result", result);
-            if (fs.existsSync(path)) {
+            if (fs.existsSync("/tmp/pgp-result")) {
                 await artifactClient.uploadArtifact(
                     "pgp-result",
                     "/tmp/pgp-result",
