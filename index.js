@@ -54,10 +54,9 @@ async function run() {
             });
         } else {
             try {
-                const {
+                var {
                     keys: [privateKey]
                 } = await openpgp.key.readArmored(privateInputKey);
-                console.log(`private key read: ${privateKey}`);
                 if (!!passphrase) {
                     await privateKey.decrypt(passphrase);
                 }
@@ -73,7 +72,7 @@ async function run() {
         core.setOutput("encrypted-text", result);
         core.exportVariable("encryptedText", result);
     } catch (error) {
-        core.setFailed(error.toString());
+        core.setFailed(JSON.stringify(error));
     }
 }
 
