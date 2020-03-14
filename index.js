@@ -2,6 +2,7 @@ const core = require("@actions/core");
 const openpgp = require("openpgp");
 const fs = require("fs");
 try {
+    core.debug("started");
     const inputText = core.getInput("text", { required: true });
     core.debug(`input value: ${inputText}`);
     try {
