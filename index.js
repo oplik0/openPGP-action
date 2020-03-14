@@ -21,7 +21,7 @@ try {
         const passphrase = core.getInput("passphrase");
         console.log("inputted key is private and will be used for signing");
     } else {
-        const privateKey = core.getInput("privateKey");
+        const privateInputKey = core.getInput("privateKey");
     }
     const keyserver = core.getInput("keyserver", { required: false });
     (async () => {
@@ -45,12 +45,14 @@ try {
                 privateKeys: [privateKey]
             });
         } else {
+            var privateKey = await openpgp.key.readArmored(privateInputKey);
+            if (!!passphrase) {
+                await privateKey.decrypt(passphrase);
+            }
             const result = await openpgp.encrypt({
                 message: openpgp.message.fromText(text),
                 publicKeys: await openpgp.key.readArmored(key),
-                privateKeys: !!privateKey
-                    ? [await openpgp.key.readArmored(privateKey)]
-                    : []
+                privateKeys: !!privateKey ? [privateKey] : []
             });
         }
         core.setOutput("encrypted-text", result);
