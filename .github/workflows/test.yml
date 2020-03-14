@@ -17,8 +17,10 @@ jobs:
         id: pgp
         with:
           text: encryption test
-          key: ${{ secrets.PUBLIC_KEY }}
-          privateKey: ${{ secrets.PRIVATE_KEY }}
+          key: |
+            ${{ secrets.PUBLIC_KEY }}
+          privateKey: |
+            ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
       - name: signing_test
         uses: ./ # Uses an action in the root directory

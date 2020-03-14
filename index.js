@@ -18,6 +18,7 @@ async function run() {
         const useKeyserver = keysource === "keyserver" ? true : false;
         console.log(`keysource: ${keysource}`);
         const inputKey = core.getInput("key", { required: true });
+        console.log(`key inputted: ${key}`);
         const isPrivate = !!key.includes("PRIVATE KEY BLOCK");
         console.log(`key inputted: ${key}`);
         if (isPrivate) {
