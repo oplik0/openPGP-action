@@ -72,7 +72,7 @@ async function run() {
         core.setOutput("encrypted-text", result);
         core.exportVariable("encryptedText", result);
     } catch (error) {
-        core.setFailed(JSON.stringify(error));
+        core.setFailed(error.stack);
     }
 }
 
