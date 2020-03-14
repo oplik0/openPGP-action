@@ -1,34 +1,35 @@
 const core = require("@actions/core");
 const openpgp = require("openpgp");
 const fs = require("fs");
-try {
-    console.log("test");
-    core.debug("started");
-    const inputText = core.getInput("text", { required: true });
-    core.debug(`input value: ${inputText}`);
+(async () => {
     try {
-        if (fs.existsSync(path)) {
-            var text = fs.readFileSync(inputText);
+        console.log("test");
+        core.debug("started");
+        const inputText = core.getInput("text", { required: true });
+        core.debug(`input value: ${inputText}`);
+        try {
+            if (fs.existsSync(path)) {
+                var text = fs.readFileSync(inputText);
+            }
+        } catch (err) {
+            var text = inputText;
         }
-    } catch (err) {
-        var text = inputText;
-    }
-    core.debug(`text inputted: ${text}`);
-    const useKeyserver =
-        core.getInput("text", { required: true }) === "keyserver"
-            ? true
-            : false;
-    const inputKey = core.getInput("key", { required: true });
-    const isPrivate = !!key.includes("PRIVATE KEY BLOCK");
-    if (isPrivate) {
-        const passphrase = core.getInput("passphrase");
-        console.log("inputted key is private and will be used for signing");
-    } else {
-        const privateInputKey = core.getInput("privateKey");
-    }
-    core.debug(`key inputted: ${key}`);
-    const keyserver = core.getInput("keyserver", { required: false });
-    core.debug(`keyserver inputted: ${keyserver}`)(async () => {
+        core.debug(`text inputted: ${text}`);
+        const useKeyserver =
+            core.getInput("text", { required: true }) === "keyserver"
+                ? true
+                : false;
+        const inputKey = core.getInput("key", { required: true });
+        const isPrivate = !!key.includes("PRIVATE KEY BLOCK");
+        if (isPrivate) {
+            const passphrase = core.getInput("passphrase");
+            console.log("inputted key is private and will be used for signing");
+        } else {
+            const privateInputKey = core.getInput("privateKey");
+        }
+        core.debug(`key inputted: ${key}`);
+        const keyserver = core.getInput("keyserver", { required: false });
+        core.debug(`keyserver inputted: ${keyserver}`);
         if (useKeyserver) {
             var hkp = !!keyserver
                 ? new openpgp.HKP(keyserver)
@@ -68,9 +69,9 @@ try {
                 privateKeys: !!privateKey ? [privateKey] : []
             });
         }
-        core.setOutput("encrypted-text", JSON.stringify(result));
-        //core.exportVariable("encryptedText", );
-    })();
-} catch (error) {
-    core.setFailed(error);
-}
+        core.setOutput("encrypted-text", result);
+        core.exportVariable("encryptedText", result);
+    } catch (error) {
+        core.setFailed(error);
+    }
+})();
