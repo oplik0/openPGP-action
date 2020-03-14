@@ -42,6 +42,7 @@ async function run() {
             var key = await hkp.lookup({
                 query: inputKey
             });
+            console.log(key);
         } else {
             var key = inputKey;
         }
