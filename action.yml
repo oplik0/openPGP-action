@@ -21,10 +21,6 @@ inputs:
   keyserver:
     description: "Custom keyserver address (default is https://keyserver.ubuntu.com)"
     required: false
-  saveArtifact:
-    description: "Save result to a github artifact"
-    required: true
-    default: "false"
 outputs:
   encrypted-text:
     description: "the result of encryption"

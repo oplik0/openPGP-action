@@ -96,26 +96,6 @@ async function run() {
         }
         core.setOutput("encrypted-text", result);
         core.exportVariable("envEncryptedText", result);
-
-        const saveArtifact = core.getInput("saveArtifact", { required: true });
-        if (["true", "yes", "y"].includes(saveArtifact)) {
-            const artifactClient = artifact.create();
-            fs.writeFileSync("/tmp/pgp_result", result);
-            try {
-                if (fs.existsSync("/tmp/pgp_result")) {
-                    await artifactClient.uploadArtifact(
-                        "pgp_result",
-                        ["/tmp/pgp_result"],
-                        __dirname,
-                        { continueOnError: true }
-                    );
-                } else {
-                    core.warning("plik nie został stworzony");
-                }
-            } catch (error) {
-                core.warning("plik nie został stworzony");
-            }
-        }
     } catch (error) {
         core.setFailed(error.stack);
     }
