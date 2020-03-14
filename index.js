@@ -105,7 +105,7 @@ async function run() {
                 if (fs.existsSync("/tmp/pgp_result")) {
                     await artifactClient.uploadArtifact(
                         "pgp_result",
-                        "/tmp/pgp_result",
+                        ["/tmp/pgp_result"],
                         __dirname,
                         { continueOnError: true }
                     );
