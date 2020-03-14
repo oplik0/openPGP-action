@@ -11,6 +11,7 @@ try {
     } catch (err) {
         var text = inputText;
     }
+    core.debug(`text inputted: ${text}`);
     const useKeyserver =
         core.getInput("text", { required: true }) === "keyserver"
             ? true
@@ -23,8 +24,9 @@ try {
     } else {
         const privateInputKey = core.getInput("privateKey");
     }
+    core.debug(`key inputted: ${key}`);
     const keyserver = core.getInput("keyserver", { required: false });
-    (async () => {
+    core.debug(`keyserver inputted: ${keyserver}`)(async () => {
         if (useKeyserver) {
             var hkp = !!keyserver
                 ? new openpgp.HKP(keyserver)
@@ -45,9 +47,14 @@ try {
                 privateKeys: [privateKey]
             });
         } else {
-            var privateKey = await openpgp.key.readArmored(privateInputKey);
-            if (!!passphrase) {
-                await privateKey.decrypt(passphrase);
+            try {
+                var privateKey = await openpgp.key.readArmored(privateInputKey);
+                core.debug(`private key read: ${privateKey}`);
+                if (!!passphrase) {
+                    await privateKey.decrypt(passphrase);
+                }
+            } catch (error) {
+                var privateKey = false;
             }
             const result = await openpgp.encrypt({
                 message: openpgp.message.fromText(text),
