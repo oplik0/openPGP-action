@@ -22,11 +22,11 @@ async function run() {
         const inputKey = core.getInput("key", { required: true }).toString();
         const isPrivate = !!inputKey.includes("PRIVATE KEY BLOCK");
         if (isPrivate) {
-            var passphrase = core.getInput("passphrase").toString();
             console.log("inputted key is private and will be used for signing");
         } else {
             var privateInputKey = core.getInput("privateKey").toString();
         }
+        var passphrase = core.getInput("passphrase").toString();
         const keyserver = core
             .getInput("keyserver", { required: false })
             .toString();
