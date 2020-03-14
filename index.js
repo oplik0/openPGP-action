@@ -68,8 +68,8 @@ try {
                 privateKeys: !!privateKey ? [privateKey] : []
             });
         }
-        core.setOutput("encrypted-text", result.toString());
-        core.exportVariable("encryptedText", result.toString());
+        core.setOutput("encrypted-text", JSON.stringify(result));
+        //core.exportVariable("encryptedText", );
     })();
 } catch (error) {
     core.setFailed(error);
