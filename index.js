@@ -3,10 +3,9 @@ const openpgp = require("openpgp");
 const fs = require("fs");
 async function run() {
     try {
-        console.log("test");
-        core.debug("started");
+        console.log("started");
         const inputText = core.getInput("text", { required: true });
-        core.debug(`input value: ${inputText}`);
+        console.log(`input value: ${inputText}`);
         try {
             if (fs.existsSync(path)) {
                 var text = fs.readFileSync(inputText);
@@ -14,7 +13,7 @@ async function run() {
         } catch (err) {
             var text = inputText;
         }
-        core.debug(`text inputted: ${text}`);
+        console.log(`text inputted: ${text}`);
         const useKeyserver =
             core.getInput("keysource", { required: true }) === "keyserver"
                 ? true
@@ -27,9 +26,9 @@ async function run() {
         } else {
             const privateInputKey = core.getInput("privateKey");
         }
-        core.debug(`key inputted: ${key}`);
+        console.log(`key inputted: ${key}`);
         const keyserver = core.getInput("keyserver", { required: false });
-        core.debug(`keyserver inputted: ${keyserver}`);
+        console.log(`keyserver inputted: ${keyserver}`);
         if (useKeyserver) {
             var hkp = !!keyserver
                 ? new openpgp.HKP(keyserver)
@@ -56,7 +55,7 @@ async function run() {
                 const {
                     keys: [privateKey]
                 } = await openpgp.key.readArmored(privateInputKey);
-                core.debug(`private key read: ${privateKey}`);
+                console.log(`private key read: ${privateKey}`);
                 if (!!passphrase) {
                     await privateKey.decrypt(passphrase);
                 }
