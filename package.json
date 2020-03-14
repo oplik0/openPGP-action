@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "Github action for encrypting or signing text",
   "main": "index.js",
-  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/oplik0/openPGP-action.git"
