@@ -70,6 +70,7 @@ async function run() {
             }
             const message = openpgp.message.fromText(text);
             const publicKeys = await openpgp.key.readArmored(key);
+            console.log(publicKeys);
             var { data: result } = await openpgp.encrypt({
                 message: message,
                 publicKeys: publicKeys.keys,
