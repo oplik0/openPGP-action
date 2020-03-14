@@ -7,7 +7,6 @@ on: [push]
 
 jobs:
   test_the_action:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -15,6 +14,7 @@ jobs:
         uses: actions/checkout@v2
       - name: encryption_test
         uses: ./ # Uses an action in the root directory
+        id: pgp
         with:
           text: "encryption test"
           key: ${{ secrets.PUBLIC_KEY }}
@@ -22,6 +22,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
       - name: signing_test
         uses: ./ # Uses an action in the root directory
+        id: pgp2
         with:
           text: "encryption test"
           key: ${{ secrets.PRIVATE_KEY }}

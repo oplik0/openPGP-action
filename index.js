@@ -1,9 +1,9 @@
-"use strict";
 const core = require("@actions/core");
 const openpgp = require("openpgp");
 const fs = require("fs");
 try {
     const inputText = core.getInput("text", { required: true });
+    core.debug(`input value: ${inputText}`);
     try {
         if (fs.existsSync(path)) {
             var text = fs.readFileSync(inputText);
@@ -38,17 +38,21 @@ try {
             const key = inputKey;
         }
         if (isPrivate) {
-            var privateKey = await openpgp.key.readArmored(key);
+            var {
+                keys: [privateKey]
+            } = await openpgp.key.readArmored(key);
             if (!!passphrase) {
                 await privateKey.decrypt(passphrase);
             }
-            const result = await openpgp.sign({
+            const { data: result } = await openpgp.sign({
                 message: openpgp.cleartext.fromText(text),
                 privateKeys: [privateKey]
             });
         } else {
             try {
-                var privateKey = await openpgp.key.readArmored(privateInputKey);
+                const {
+                    keys: [privateKey]
+                } = await openpgp.key.readArmored(privateInputKey);
                 core.debug(`private key read: ${privateKey}`);
                 if (!!passphrase) {
                     await privateKey.decrypt(passphrase);
@@ -56,9 +60,9 @@ try {
             } catch (error) {
                 var privateKey = false;
             }
-            const result = await openpgp.encrypt({
+            const { data: result } = await openpgp.encrypt({
                 message: openpgp.message.fromText(text),
-                publicKeys: await openpgp.key.readArmored(key),
+                publicKeys: (await openpgp.key.readArmored(key)).keys,
                 privateKeys: !!privateKey ? [privateKey] : []
             });
         }
