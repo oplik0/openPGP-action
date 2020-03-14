@@ -16,7 +16,7 @@ async function run() {
         }
         core.debug(`text inputted: ${text}`);
         const useKeyserver =
-            core.getInput("text", { required: true }) === "keyserver"
+            core.getInput("keysource", { required: true }) === "keyserver"
                 ? true
                 : false;
         const inputKey = core.getInput("key", { required: true });
