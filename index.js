@@ -19,7 +19,7 @@ async function run() {
         console.log(`keysource: ${keysource}`);
         const inputKey = core.getInput("key", { required: true });
         console.log(`key inputted: ${inputKey}`);
-        const isPrivate = !!key.includes("PRIVATE KEY BLOCK");
+        const isPrivate = !!inputKey.includes("PRIVATE KEY BLOCK");
         if (isPrivate) {
             const passphrase = core.getInput("passphrase");
             console.log("inputted key is private and will be used for signing");
@@ -70,7 +70,7 @@ async function run() {
         core.setOutput("encrypted-text", result);
         core.exportVariable("encryptedText", result);
     } catch (error) {
-        core.setFailed(error);
+        core.setFailed(error.toString());
     }
 }
 
