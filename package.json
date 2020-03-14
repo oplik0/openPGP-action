@@ -25,6 +25,7 @@
     "homepage": "https://github.com/oplik0/openPGP-action#readme",
     "dependencies": {
         "@actions/core": "^1.2.3",
+        "node-fetch": "^2.6.0",
         "openpgp": "^4.10.1"
     }
 }
