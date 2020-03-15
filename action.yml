@@ -1,4 +1,4 @@
-name: "OpenPGP"
+name: "OpenPGP-action"
 description: "encrypt or sign some text with a PGP key"
 author: "oplik0"
 inputs:
