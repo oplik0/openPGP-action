@@ -1,5 +1,5 @@
 # OpenPGP-action
-
+![Test this action](https://github.com/oplik0/openPGP-action/workflows/Test%20this%20action/badge.svg)
 Github action for encrypting or signing text
 
 Example use would be encrypting debug data sent to some email, or signing a result of other action to make its origin (the repository) verifiable.
