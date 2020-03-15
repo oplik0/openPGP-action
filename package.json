@@ -1,6 +1,6 @@
 {
     "name": "openpgp-action",
-    "version": "0.2",
+    "version": "1.0.0",
     "description": "Github action for encrypting or signing text",
     "main": "index.js",
     "repository": {
@@ -24,7 +24,6 @@
     },
     "homepage": "https://github.com/oplik0/openPGP-action#readme",
     "dependencies": {
-        "@actions/artifact": "^0.2.0",
         "@actions/core": "^1.2.3",
         "node-fetch": "^2.6.0",
         "openpgp": "^4.10.1"
