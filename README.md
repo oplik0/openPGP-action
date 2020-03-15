@@ -1,8 +1,10 @@
-# pgp-action
+# OpenPGP-action
 
 Github action for encrypting or signing text
 
 Example use would be encrypting debug data sent to some email, or signing a result of other action to make its origin (the repository) verifiable.
+
+Uses OpenPGP.js for all PGP operations
 
 ## Inputs
 
