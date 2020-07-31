@@ -26,6 +26,6 @@
     "dependencies": {
         "@actions/core": "^1.2.4",
         "node-fetch": "^2.6.0",
-        "openpgp": "^4.10.1"
+        "openpgp": "^4.10.7"
     }
 }
