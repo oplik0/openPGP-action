@@ -9,7 +9,7 @@ async function run() {
         const inputText = core.getInput("text", { required: true }).toString();
         core.debug(`text inputted: ${inputText}`);
         try {
-            if (fs.existsSync(path)) {
+            if (fs.existsSync(inputText)) {
                 core.debug("text is a valid filepath, reading the file");
                 var text = fs.readFileSync(inputText);
             } else {
