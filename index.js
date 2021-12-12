@@ -56,7 +56,7 @@ async function run() {
         }
         if (isPrivate) {
             core.debug("signing the message");
-            var privateKey = await openpgp.key.readPrivateKey({
+            var privateKey = await openpgp.readPrivateKey({
                 armoredKey: key,
             });
             if (!!passphrase) {
@@ -68,7 +68,7 @@ async function run() {
             });
         } else {
             try {
-                var privateKey = await openpgp.key.readPrivateKey({
+                var privateKey = await openpgp.readPrivateKey({
                     armoredKey: privateInputKey,
                 });
                 core.debug(`private key used alongside the public one`);
@@ -85,7 +85,7 @@ async function run() {
                 text,
                 date: new Date(),
             });
-            const publicKey = await openpgp.key.readKey({
+            const publicKey = await openpgp.readKey({
                 armoredKey: key,
             });
             var { data: result } = await openpgp.encrypt({
