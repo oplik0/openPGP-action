@@ -60,7 +60,10 @@ async function run() {
                 armoredKey: key,
             });
             if (!!passphrase) {
-                await privateKey.decrypt(passphrase);
+                await openpgp.decryptKey({
+                    privateKey,
+                    passphrase,
+                });
             }
             var { data: result } = await openpgp.sign({
                 message: await openpgp.createCleartextMessage({ text }),
