@@ -24,8 +24,8 @@
     },
     "homepage": "https://github.com/oplik0/openPGP-action#readme",
     "dependencies": {
-        "@actions/core": "^1.4.0",
-        "node-fetch": "^2.6.1",
-        "openpgp": "^4.10.10"
+        "@actions/core": "1.6.0",
+        "@openpgp/hkp-client": "0.0.2",
+        "openpgp": "5.0.1"
     }
 }

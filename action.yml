@@ -25,7 +25,7 @@ outputs:
   encrypted-text:
     description: "the result of encryption"
 runs:
-  using: "node12"
+  using: "node16"
   main: index.js
 branding:
   icon: "lock"

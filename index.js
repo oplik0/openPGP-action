@@ -1,7 +1,7 @@
 const core = require("@actions/core");
 const openpgp = require("openpgp");
+const HKP = require("@openpgp/hkp-client");
 const fs = require("fs");
-global.fetch = require("node-fetch");
 
 async function run() {
     try {
@@ -46,11 +46,9 @@ async function run() {
             }`
         );
         if (useKeyserver) {
-            var hkp = !!keyserver
-                ? new openpgp.HKP(keyserver)
-                : new openpgp.HKP();
+            var hkp = !!keyserver ? new HKP(keyserver) : new HKP();
             var key = await hkp.lookup({
-                query: inputKey
+                query: inputKey,
             });
             core.debug(`key retrieved from keyserver: ${key}`);
         } else {
@@ -58,24 +56,25 @@ async function run() {
         }
         if (isPrivate) {
             core.debug("signing the message");
-            var {
-                keys: [privateKey]
-            } = await openpgp.key.readArmored(key);
+            var privateKey = await openpgp.readPrivateKey({
+                armoredKey: key,
+            });
             if (!!passphrase) {
-                await privateKey.decrypt(passphrase);
+                privateKey = await openpgp.decryptKey({
+                    privateKey,
+                    passphrase,
+                });
             }
             var { data: result } = await openpgp.sign({
-                message: openpgp.cleartext.fromText(text),
-                privateKeys: [privateKey]
+                message: await openpgp.createCleartextMessage({ text }),
+                signingKeys: [privateKey],
             });
         } else {
             try {
-                var {
-                    keys: [privateKey]
-                } = await openpgp.key.readArmored(privateInputKey);
-                core.debug(
-                    `private key used alongside the public one: ${privateKey}`
-                );
+                var privateKey = await openpgp.readPrivateKey({
+                    armoredKey: privateInputKey,
+                });
+                core.debug(`private key used alongside the public one`);
                 if (!!passphrase) {
                     await privateKey.decrypt(passphrase);
                 }
@@ -85,12 +84,17 @@ async function run() {
                 );
                 var privateKey = false;
             }
-            const message = openpgp.message.fromText(text);
-            const publicKeys = await openpgp.key.readArmored(key);
+            const message = await openpgp.createMessage({
+                text,
+                date: new Date(),
+            });
+            const publicKey = await openpgp.readKey({
+                armoredKey: key,
+            });
             var { data: result } = await openpgp.encrypt({
                 message: message,
-                publicKeys: publicKeys.keys,
-                privateKeys: !!privateKey ? [privateKey] : []
+                encryptionKeys: publicKey,
+                signingKeys: !!privateKey ? privateKey : null,
             });
         }
         core.setOutput("encrypted-text", result);
