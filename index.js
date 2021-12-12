@@ -64,8 +64,8 @@ async function run() {
                 await privateKey.decrypt(passphrase);
             }
             var { data: result } = await openpgp.sign({
-                message: openpgp.cleartext.fromText(text),
-                privateKeys: [privateKey],
+                message: await openpgp.createCleartextMessage({ text }),
+                signingKeys: [privateKey],
             });
         } else {
             try {
@@ -82,7 +82,10 @@ async function run() {
                 );
                 var privateKey = false;
             }
-            const message = openpgp.message.fromText(text);
+            const message = await openpgp.createMessage({
+                text,
+                date: new Date(),
+            });
             const publicKeys = await openpgp.key.readKeys({ armoredKeys: key });
             var { data: result } = await openpgp.encrypt({
                 message: message,
