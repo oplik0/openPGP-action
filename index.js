@@ -86,11 +86,13 @@ async function run() {
                 text,
                 date: new Date(),
             });
-            const publicKeys = await openpgp.key.readKeys({ armoredKeys: key });
+            const publicKey = await openpgp.key.readKey({
+                armoredKey: key,
+            });
             var { data: result } = await openpgp.encrypt({
                 message: message,
-                encryptionKeys: publicKeys.keys,
-                signingKeys: !!privateKey ? [privateKey] : [],
+                encryptionKeys: publicKey,
+                signingKeys: !!privateKey ? privateKey : null,
             });
         }
         core.setOutput("encrypted-text", result);
