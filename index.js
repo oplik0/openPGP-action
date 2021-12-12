@@ -2,7 +2,6 @@ const core = require("@actions/core");
 const openpgp = require("openpgp");
 const HKP = require("@openpgp/hkp-client");
 const fs = require("fs");
-global.fetch = require("node-fetch");
 
 async function run() {
     try {
