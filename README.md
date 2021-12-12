@@ -42,7 +42,7 @@ The result of encryption/signing
 ## Example usage
 
 ```
-uses: oplik0/openpgp-action@v1
+uses: oplik0/openpgp-action@v2
 with:
     text: example
     key: ${{ secrets.PUBLIC_KEY }}
