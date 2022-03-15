@@ -26,6 +26,6 @@
     "dependencies": {
         "@actions/core": "1.6.0",
         "@openpgp/hkp-client": "0.0.2",
-        "openpgp": "5.0.1"
+        "openpgp": "5.2.1"
     }
 }
