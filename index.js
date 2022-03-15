@@ -65,7 +65,7 @@ async function run() {
                     passphrase,
                 });
             }
-            var { data: result } = await openpgp.sign({
+            const result = await openpgp.sign({
                 message: await openpgp.createCleartextMessage({ text }),
                 signingKeys: [privateKey],
             });
@@ -91,7 +91,7 @@ async function run() {
             const publicKey = await openpgp.readKey({
                 armoredKey: key,
             });
-            var { data: result } = await openpgp.encrypt({
+            const result = await openpgp.encrypt({
                 message: message,
                 encryptionKeys: publicKey,
                 signingKeys: !!privateKey ? privateKey : null,
