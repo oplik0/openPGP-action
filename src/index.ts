@@ -12,6 +12,7 @@ async function getKey(key: string): Promise<string | null> {
 			const keyserver = core.getInput("keyserver", { required: false });
 			const query = key;
 			// For some reason the TS don't match the actual export - it's under default and not as a named export
+			// see https://github.com/openpgpjs/hkp-client/pull/2
 			const hkp = new (HKP as any)(keyserver.length ? keyserver : undefined);
 			return await hkp.lookup({ query }) ?? null;
 		case "file":
