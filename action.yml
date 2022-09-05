@@ -6,11 +6,11 @@ inputs:
     description: "file or string to encrypt"
     required: true
   keysource:
-    description: "key/file/keyserver"
+    description: "key/file/keyserver/wkd (Web Key Directory for looking up keys from email)"
     required: true
     default: "key"
   key:
-    description: "string containing PGP key or if keysource is keyserver, a search string (e.g. en email address)"
+    description: "string containing PGP key, a path to a file or if keysource is keyserver or wkd, a search string (e.g. en email address)"
     required: true
   privateKey:
     description: "string containing a private key used for signing an encryped message. If you only want to sign, use the 'key' field instead"

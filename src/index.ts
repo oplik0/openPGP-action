@@ -1,7 +1,18 @@
 import * as core from "@actions/core";
-import { default as HKP } from "@openpgp/hkp-client";
+import HKP from "@openpgp/hkp-client";
+import WKD from "@openpgp/wkd-client";
 import { readFile } from "node:fs/promises";
-import { createCleartextMessage, createMessage, decryptKey, encrypt, readKey, readPrivateKey, sign } from "openpgp";
+import {
+	armor,
+	createCleartextMessage,
+	createMessage,
+	decryptKey,
+	encrypt,
+	enums,
+	readKey,
+	readPrivateKey,
+	sign,
+} from "openpgp";
 import type { Key, PrivateKey, PublicKey } from "openpgp";
 async function getKey(key: string): Promise<string | null> {
 	if (!key.length) return null;
@@ -15,6 +26,12 @@ async function getKey(key: string): Promise<string | null> {
 			// see https://github.com/openpgpjs/hkp-client/pull/2
 			const hkp = new (HKP as any)(keyserver.length ? keyserver : undefined);
 			return await hkp.lookup({ query }) ?? null;
+		case "wkd":
+			// THEY DID IT TWICE - this one is even already fixed, but not published
+			// see https://github.com/openpgpjs/wkd-client/pull/2
+			const wkd = new (WKD as any)();
+			const binaryKey = await wkd.lookup({ email: key });
+			return armor(enums.armor.publicKey, binaryKey, undefined, undefined);
 		case "file":
 			const file = (await readFile(key)).toString("utf-8");
 			return file.length ? file : null;

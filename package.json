@@ -29,6 +29,7 @@
     "dependencies": {
         "@actions/core": "1.9.1",
         "@openpgp/hkp-client": "0.0.2",
+        "@openpgp/wkd-client": "^0.0.3",
         "openpgp": "5.5.0"
     },
     "devDependencies": {
