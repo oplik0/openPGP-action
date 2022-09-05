@@ -1,6 +1,6 @@
 import * as core from "@actions/core";
-import { HKP } from "@openpgp/hkp-client";
-import { access, readFile } from "node:fs/promises";
+import { default as HKP } from "@openpgp/hkp-client";
+import { readFile } from "node:fs/promises";
 import { createCleartextMessage, createMessage, decryptKey, encrypt, readKey, readPrivateKey, sign } from "openpgp";
 import type { Key, PrivateKey, PublicKey } from "openpgp";
 async function getKey(key: string): Promise<string | null> {
@@ -11,7 +11,8 @@ async function getKey(key: string): Promise<string | null> {
 		case "keyserver":
 			const keyserver = core.getInput("keyserver", { required: false });
 			const query = key;
-			const hkp = new HKP(keyserver.length ? keyserver : undefined);
+			// For some reason the TS don't match the actual export - it's under default and not as a named export
+			const hkp = new (HKP as any)(keyserver.length ? keyserver : undefined);
 			return await hkp.lookup({ query }) ?? null;
 		case "file":
 			const file = (await readFile(key)).toString("utf-8");
