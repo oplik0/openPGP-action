@@ -6,7 +6,7 @@ inputs:
     description: "file or string to encrypt"
     required: true
   keysource:
-    description: "key/keyserver"
+    description: "key/file/keyserver"
     required: true
     default: "key"
   key:
@@ -25,8 +25,8 @@ outputs:
   encrypted-text:
     description: "the result of encryption"
 runs:
-  using: "node16"
-  main: index.js
+  using: node16
+  main: dist/index.js
 branding:
   icon: "lock"
   color: "blue"

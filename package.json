@@ -2,7 +2,10 @@
     "name": "openpgp-action",
     "version": "1.0.0",
     "description": "Github action for encrypting or signing text",
-    "main": "index.js",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "ncc build --minify --source-map --license licenses.txt --target es2020 src/index.ts"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/oplik0/openPGP-action.git"
@@ -24,8 +27,19 @@
     },
     "homepage": "https://github.com/oplik0/openPGP-action#readme",
     "dependencies": {
-        "@actions/core": "1.6.0",
+        "@actions/core": "1.9.1",
         "@openpgp/hkp-client": "0.0.2",
-        "openpgp": "5.0.1"
-    }
+        "openpgp": "5.5.0"
+    },
+    "devDependencies": {
+        "@openpgp/web-stream-tools": "^0.0.11",
+        "@types/node": "^18.7.15",
+        "@typescript-eslint/parser": "^5.36.2",
+        "@vercel/ncc": "^0.34.0",
+        "dprint": "^0.31.1",
+        "eslint": "^8.23.0",
+        "eslint-plugin-github": "^4.3.7",
+        "typescript": "^4.8.2"
+    },
+    "type": "module"
 }
