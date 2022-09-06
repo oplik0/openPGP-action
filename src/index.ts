@@ -22,14 +22,10 @@ async function getKey(key: string): Promise<string | null> {
 		case "keyserver":
 			const keyserver = core.getInput("keyserver", { required: false });
 			const query = key;
-			// For some reason the TS don't match the actual export - it's under default and not as a named export
-			// see https://github.com/openpgpjs/hkp-client/pull/2
-			const hkp = new (HKP as any)(keyserver.length ? keyserver : undefined);
+			const hkp = new HKP(keyserver.length ? keyserver : undefined);
 			return await hkp.lookup({ query }) ?? null;
 		case "wkd":
-			// THEY DID IT TWICE - this one is even already fixed, but not published
-			// see https://github.com/openpgpjs/wkd-client/pull/2
-			const wkd = new (WKD as any)();
+			const wkd = new WKD();
 			const binaryKey = await wkd.lookup({ email: key });
 			return armor(enums.armor.publicKey, binaryKey, undefined, undefined);
 		case "file":
