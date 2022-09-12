@@ -3,7 +3,9 @@
 
 name: Test this action
 
-on: [push]
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   test_the_action:
