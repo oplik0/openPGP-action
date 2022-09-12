@@ -17,20 +17,24 @@ jobs:
       - name: encryption test
         uses: ./ # Uses an action in the root directory
         id: pgp
-        if: ${{ contains(secrets.PRIVATE_KEY, 'BEGIN') }}
+        if: ${{ contains(env.PRIVATE_KEY, 'BEGIN') }}
         with:
           text: encryption test
           key: ${{ secrets.PUBLIC_KEY }}
           privateKey: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
       - name: signing test
         uses: ./ # Uses an action in the root directory
         id: pgp2
-        if: ${{ contains(secrets.PRIVATE_KEY, 'BEGIN') }}
+        if: ${{ contains(env.PRIVATE_KEY, 'BEGIN') }}
         with:
           text: signing test
           key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
       - name: keyserver test
         uses: ./ # Uses an action in the root directory
         id: pgp3
