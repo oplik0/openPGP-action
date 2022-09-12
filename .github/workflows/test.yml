@@ -17,7 +17,7 @@ jobs:
       - name: encryption test
         uses: ./ # Uses an action in the root directory
         id: pgp
-        if: ${{ constains(secrets.PRIVATE_KEY, 'BEGIN') }}
+        if: ${{ contains(secrets.PRIVATE_KEY, 'BEGIN') }}
         with:
           text: encryption test
           key: ${{ secrets.PUBLIC_KEY }}
@@ -26,7 +26,7 @@ jobs:
       - name: signing test
         uses: ./ # Uses an action in the root directory
         id: pgp2
-        if: ${{ constains(secrets.PRIVATE_KEY, 'BEGIN') }}
+        if: ${{ contains(secrets.PRIVATE_KEY, 'BEGIN') }}
         with:
           text: signing test
           key: ${{ secrets.PRIVATE_KEY }}
