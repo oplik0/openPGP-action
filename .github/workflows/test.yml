@@ -15,6 +15,7 @@ jobs:
       - name: encryption test
         uses: ./ # Uses an action in the root directory
         id: pgp
+        if: ${{ constains(secrets.PRIVATE_KEY, 'BEGIN') }}
         with:
           text: encryption test
           key: ${{ secrets.PUBLIC_KEY }}
@@ -23,6 +24,7 @@ jobs:
       - name: signing test
         uses: ./ # Uses an action in the root directory
         id: pgp2
+        if: ${{ constains(secrets.PRIVATE_KEY, 'BEGIN') }}
         with:
           text: signing test
           key: ${{ secrets.PRIVATE_KEY }}
@@ -35,5 +37,12 @@ jobs:
           keysource: keyserver
           keyserver: https://keys.openpgp.org
           key: 5B01AC37ECF039FD24F7434646A9E63BBC90F2D1
+      - name: wkd test
+        uses: ./ # Uses an action in the root directory
+        id: pgp4
+        with:
+          text: wkd test
+          keysource: wkd
+          key: opliko.reg@protonmail.com
       - name: print results
-        run: echo "output results - \n1. ${{ steps.pgp.outputs.encrypted-text }}\n2. ${{ steps.pgp2.outputs.encrypted-text }}\n3. ${{ steps.pgp3.outputs.encrypted-text }}\n"
+        run: echo "output results - \n1. ${{ steps.pgp.outputs.encrypted-text }}\n2. ${{ steps.pgp2.outputs.encrypted-text }}\n3. ${{ steps.pgp3.outputs.encrypted-text }}\n4. ${{ steps.pgp4.outputs.encrypted-text }}\n"
