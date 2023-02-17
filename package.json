@@ -33,7 +33,7 @@
         "openpgp": "5.6.0"
     },
     "devDependencies": {
-        "@openpgp/web-stream-tools": "^0.0.12",
+        "@openpgp/web-stream-tools": "^0.0.13",
         "@types/node": "^18.11.4",
         "@typescript-eslint/parser": "^5.40.1",
         "@vercel/ncc": "^0.34.0",
